@@ -1,0 +1,35 @@
+{
+  "name": "yk_backend",
+  "version": "1.0.0",
+  "description": "API development for yk_networks",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevthedev007/yk_backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevthedev007/yk_backend/issues"
+  },
+  "homepage": "https://github.com/kevthedev007/yk_backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.0",
+    "nodemailer": "^6.6.5",
+    "otp-generator": "^2.0.1",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  }
+}
