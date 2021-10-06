@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Customer.init({
+    customer_id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     full_name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -28,10 +33,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     dob: {
       type: DataTypes.DATE,
-      allowNull: false
+      // allowNull: false
     },
     phone_no: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true
     },

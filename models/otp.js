@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   OTP.init({
+    otp_id: {
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     customer_id: DataTypes.STRING,
     otp: DataTypes.INTEGER,
     status: {

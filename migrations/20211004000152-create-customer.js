@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4
+        defaultValue: Sequelize.UUIDV4,
       },
       full_name: {
         type: Sequelize.STRING,
@@ -18,10 +18,10 @@ module.exports = {
       },
       dob: {
         type: Sequelize.DATE,
-        allowNull: false
+        // allowNull: false
       },
       phone_no: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },

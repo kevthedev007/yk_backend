@@ -1,17 +1,17 @@
 const nodemailer = require('nodemailer')
 
-function sendMail(email, OTP) {
-    let transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER, // generated ethereal user
-          pass: process.env.GMAIL_PASS, // generated ethereal password
-        },
-        tls: {
-            rejectUnauthorized: false
-        }
-      });
+let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.GMAIL_USER, // generated ethereal user
+      pass: process.env.GMAIL_PASS, // generated ethereal password
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+  });
 
+function sendMail(email, OTP) {
     let mailTransport = {
         from: '"noreply" <YKNetworksNigeria@gmail.com>', // sender address
         to: email, // list of receivers
@@ -22,10 +22,10 @@ function sendMail(email, OTP) {
       };
 
       transporter.sendMail(mailTransport, (error, info) => {
-          if(error) throw new Error('Mail not sent');
-          console.log(info)
+          if(error) console.log(error);
+          console.log("mail sent")
       });
-}
+    }
 
 
 module.exports = sendMail
