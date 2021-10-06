@@ -10,7 +10,7 @@ if(process.env.NODE_ENV !== 'production') {
 const app = express()
 
 //importing routes
-
+const authRoutes = require('./routes/authRoute')
 
 //Adding middlewares
 app.use(cors())

@@ -22,7 +22,8 @@ module.exports = {
       },
       phone_no: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       status: {
         type: Sequelize.ENUM("active", "inactive"),

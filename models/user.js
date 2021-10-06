@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
     },
     dob: {
       type: DataTypes.DATE,
@@ -28,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone_no: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     status: {
       type: DataTypes.ENUM("active", "inactive"),
