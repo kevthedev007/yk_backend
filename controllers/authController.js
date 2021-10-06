@@ -1,7 +1,7 @@
-const { User } = require('../models');
+const { Customer } = require('../models');
 const otpGenerator = require('otp-generator');
 const jwt = require('jsonwebtoken');
-const { NOW } = require('sequelize/types');
+
 
 //To add minutes to current time
 function AddMinutesToDate(date, minutes) {
@@ -13,15 +13,15 @@ const register = async (req, res) => {
     let email = email.toLowerCase()
 
     //check if email exists in database
-    const emailExists = await User.findOne({ where: { email } });
+    const emailExists = await Customer.findOne({ where: { email } });
     if (emailExists) return res.status(400).send('Email already exists');
 
     //check if phone number exists
-    const phoneExists = await User.findOne({ where: { phone_no } });
+    const phoneExists = await Customer.findOne({ where: { phone_no } });
     if (phoneExists) return res.status(400).send('Phone number already exists');
 
     //save to users table
-    const newUser = await User.create({ full_name, dob, email, phone_no });
+    const newUser = await Customer.create({ full_name, dob, email, phone_no });
 
     //Generate OTP
     const otp = otpGenerator.generate(4, { alphabets: false, specialChars: false });
@@ -36,6 +36,8 @@ const register = async (req, res) => {
 
 
     //save to otp table
+
+
 
 }
 
