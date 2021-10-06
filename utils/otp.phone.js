@@ -5,12 +5,12 @@ const client = require('twilio')(accountSid, authToken)
 
 function SendSMS(otp, to) {
     client.messages.create({
-        body: `Your verification code is: ${otp}`,
+        body: `Your verification code is: ${otp} , your father joel, i dy use you test code`,
         from: '+18454976926',
         to: to
     })
     .then(message => console.log("success"))
-    .catch(err => console.log('sms message not sent'))
+    .catch(err => console.log(err))
 }
 
 module.exports = SendSMS
