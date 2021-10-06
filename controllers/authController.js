@@ -64,6 +64,12 @@ const verifyOTP = async (req, res) => {
         //compare the otp
         if (checkUser.otp !== otp) return res.status(400).send('Incorrect OTP')
 
+        //check if otp has expired
+        let currentTime = new Date();
+        let otpTime = checkUser.expires_in;
+
+        if (currentTime.getTime() > otpTime.getTime()) return res.status(400).send('OTP expired!')
+
         //change status to true
         const updateStatus = await OTP.update({ status: true }, { where: { otp } })
         

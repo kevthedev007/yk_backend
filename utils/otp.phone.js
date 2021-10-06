@@ -5,7 +5,7 @@ const client = require('twilio')(accountSid, authToken)
 
 function SendSMS(otp, to) {
     client.messages.create({
-        body: `Your verification code is: ${otp} , your father joel, i dy use you test code`,
+        body: `Your verification code is: ${otp}`,
         from: '+18454976926',
         to: to
     })
