@@ -1,6 +1,17 @@
 const nodemailer = require('nodemailer')
 
 function sendMail(email, OTP) {
+    let transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.GMAIL_USER, // generated ethereal user
+          pass: process.env.GMAIL_PASS, // generated ethereal password
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+      });
+
     let mailTransport = {
         from: '"noreply" <YKNetworksNigeria@gmail.com>', // sender address
         to: email, // list of receivers
@@ -12,7 +23,7 @@ function sendMail(email, OTP) {
 
       transporter.sendMail(mailTransport, (error, info) => {
           if(error) throw new Error('Mail not sent');
-          res.send('A verification link has been sent to your email')
+          console.log(info)
       });
 }
 
