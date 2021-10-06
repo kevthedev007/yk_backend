@@ -1,12 +1,25 @@
-const { Customer } = require('../models');
+const { Customer, OTP } = require('../models');
 const otpGenerator = require('otp-generator');
 const jwt = require('jsonwebtoken');
-
+const sendMail = require('../utils/otp.email')
 
 //To add minutes to current time
 function AddMinutesToDate(date, minutes) {
     return new Date(date.getTime() + minutes * 60000)
 }
+
+//mail Transport
+let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: 'themocktherapysite@gmail.com', // generated ethereal user
+      pass: 'mocktherapy', // generated ethereal password
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+  });
+
 
 const register = async (req, res) => {
     const { full_name, dob, email, phone_no } = req.body;
@@ -33,12 +46,16 @@ const register = async (req, res) => {
 
 
     //send otp to mail
-
+    sendMail(email, otp)
 
     //save to otp table
+    const newOTP = await OTP.create({
+        customer_id: newUser.customer_id,
+        otp,
+        expires_in
+    })
 
-
-
+    return res.json(newUser.customer_id)
 }
 
 
