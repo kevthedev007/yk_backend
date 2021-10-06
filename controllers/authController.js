@@ -46,6 +46,10 @@ const verifyOTP = async (req, res) => {
 
 }
 
+const createPIN = async(req, res) => {
+    
+}
+
 const signin = async (req, res) => {
 
 }
