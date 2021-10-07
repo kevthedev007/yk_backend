@@ -115,7 +115,10 @@ const signin = async (req, res) => {
         //compare PIN
         if (PIN !== userExists.PIN) return res.status(400).send('Incorrect PIN')
 
-        //assogn jwt token
+        //update status
+        const status = await User.update({ status: true }, { where: { email } })
+
+        //assign jwt token
         const token = jwt.sign({ _id: userExists.id }, process.env.SECRET_KEY);
         return res.json(token)
     } catch (err) {
