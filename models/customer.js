@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Customer extends Model {
     /**
@@ -11,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Customer.hasMany(models.OTP, { foreignKey: 'customer_id'})
     }
   };
   Customer.init({
@@ -33,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     dob: {
       type: DataTypes.DATE,
-      // allowNull: false
+      allowNull: false
     },
     phone_no: {
       type: DataTypes.STRING,

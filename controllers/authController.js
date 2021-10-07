@@ -1,16 +1,14 @@
-const { Customer, OTP } = require('../models');
+const { Customer, OTP, User } = require('../models');
 const otpGenerator = require('otp-generator');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/otp.email')
 const sendSMS = require('../utils/otp.phone');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 
 //To add minutes to current time
 function AddMinutesToDate(date, minutes) {
     return new Date(date.getTime() + minutes * 60000)
 }
-
-//email setup
 
 
 const register = async (req, res) => {
@@ -72,22 +70,57 @@ const verifyOTP = async (req, res) => {
 
         //change status to true
         const updateStatus = await OTP.update({ status: true }, { where: { otp } })
-        
+
         //update customer status
         const status = await Customer.update({ status: 'active' }, { where: { customer_id } })
         return res.json(customer_id)
-        
+
     } catch (err) {
-        res.status(400).send(err)
+        return res.status(400).send(err)
     }
 }
 
 const createPIN = async (req, res) => {
+    const { customer_id, PIN } = req.body;
 
+    try {
+        //to get customer email
+        const customer = await Customer.findOne({ where: { customer_id } });
+        //save to user model
+        const user = await User.create({
+            id: customer_id,
+            role_id: 2,
+            email: customer.email,
+            PIN: PIN,
+            status: true,
+            last_signed_in: new Date()
+        })
+
+        //jwt token
+        const token = jwt.sign({ _id: user.id }, process.env.SECRET_KEY);
+        return res.json(token)
+    } catch (err) {
+        return res.status(400).send(err)
+    }
 }
 
 const signin = async (req, res) => {
+    const { email, PIN } = req.body;
 
+    try {
+        //check if email exists
+        const userExists = await User.findOne({ where: { email } });
+        if (!userExists) return res.status(400).send('user not registered');
+
+        //compare PIN
+        if (PIN !== userExists.PIN) return res.status(400).send('Incorrect PIN')
+
+        //assogn jwt token
+        const token = jwt.sign({ _id: userExists.id }, process.env.SECRET_KEY);
+        return res.json(token)
+    } catch (err) {
+        return res.status(400).send(err)
+    }
 }
 
 
@@ -96,4 +129,4 @@ const signin = async (req, res) => {
 
 
 
-module.exports = { register, verifyOTP, signin }
+module.exports = { register, verifyOTP, createPIN, signin }

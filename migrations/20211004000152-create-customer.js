@@ -18,7 +18,7 @@ module.exports = {
       },
       dob: {
         type: Sequelize.DATE,
-        // allowNull: false
+        allowNull: false
       },
       phone_no: {
         type: Sequelize.STRING,
