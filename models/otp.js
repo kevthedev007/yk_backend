@@ -11,16 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      OTP.belongsTo(models.Customer, { foreignKey: 'customer_id' })
+      OTP.belongsTo(models.Customer, { foreignKey: 'customerId' })
     }
   };
   OTP.init({
-    otp_id: {
+    id: {
       primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    customer_id: DataTypes.STRING,
+    customerId: {
+      type: DataTypes.UUID,
+      references: {
+        model: 'Customers',
+        key: 'id'
+      }
+    },
     otp: DataTypes.INTEGER,
     status: {
       type: DataTypes.BOOLEAN,

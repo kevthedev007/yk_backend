@@ -2,17 +2,17 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('OTP', {
-      otp_id: {
+      id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      customer_id: {
+      customerId: {
         type: Sequelize.UUID,
         references: {
           model: 'Customers',
-          key: 'customer_id'
+          key: 'id'
         }
       },
       otp: {

@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Customer.hasMany(models.OTP, { foreignKey: 'customer_id'})
+      Customer.hasMany(models.OTP, { foreignKey: 'customerId', as: 'otps'})
     }
   };
   Customer.init({
-    customer_id: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true

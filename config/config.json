@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "",
+    "password": "sasuke007",
     "database": "yk_backend",
     "host": "127.0.0.1",
     "dialect": "mysql"
