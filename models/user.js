@@ -28,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: DataTypes.STRING,
     PIN: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN,
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     last_signed_in: DataTypes.DATE
   }, {
     sequelize,

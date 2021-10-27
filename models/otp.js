@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      OTP.belongsTo(models.Customer, { foreignKey: 'customerId' })
+      OTP.belongsTo(models.Customer, { foreignKey: 'customerId', onDelete: 'CASCADE' })
     }
   };
   OTP.init({

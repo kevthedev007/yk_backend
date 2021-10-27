@@ -73,7 +73,9 @@ const verifyOTP = async (req, res) => {
         if (currentTime.getTime() > otpTime.getTime()) return res.status(400).send('OTP expired!')
 
         //change status to true
-        const updateStatus = await OTP.update({ status: true }, { where: { otp } })
+        checkUser.status = true;
+        await checkUser.save()
+        // const updateStatus = await OTP.update({ status: true }, { where: { otp } })
 
         //update customer status
         const status = await Customer.update({ status: 'active' }, { where: { id } })
@@ -119,8 +121,11 @@ const signin = async (req, res) => {
         //compare PIN
         if (PIN !== userExists.PIN) return res.status(400).send('Incorrect PIN')
 
-        //update status
-        const status = await User.update({ status: true }, { where: { email } })
+        //update 
+        userExists.status = true;
+        userExists.last_signed_in = Date.now();
+        await userExists.save()
+        // const status = await User.update({ status: true }, { where: { email } })
 
         //assign jwt token
         const token = jwt.sign({ id: userExists.id }, process.env.SECRET_KEY);
@@ -153,7 +158,7 @@ const forgetPIN = async (req, res) => {
             expires_in
         })
 
-        return res.staus(200).send('password reset pin has been sent to your mail')
+        return res.status(200).send('password reset pin has been sent to your mail')
     } catch (err) {
         return res.status(500).send(err)
     }
@@ -162,6 +167,10 @@ const forgetPIN = async (req, res) => {
 const resetCode = async (req, res) => {
     const { id, otp } = req.body;
 
+    //check user
+    const user = await User.findOne({ where: { id }})
+    if(!user) return res.status(400).send('user not found!')
+
     try {
         const checkOTP = await OTP.findOne({
             where: {
@@ -169,6 +178,11 @@ const resetCode = async (req, res) => {
                 otp: otp
             }
         })
+
+        //update otp status
+        checkOTP.status = true;
+        await checkOTP.save()
+
         return res.status(200).send('reset code correct')
     } catch (err) {
         return res.status(500).send(err)
@@ -176,12 +190,16 @@ const resetCode = async (req, res) => {
 }
 
 const resetPIN = async (req, res) => {
-    const { id, PIN } = req.body.PIN;
+    const { id, PIN } = req.body;
 
     try {
-        const newPIN = await User.update({ PIN }, {
-            where: { id }
-        })
+        //check user
+        const user = await User.findOne({ where: { id }})
+        if(!user) return res.status(400).send('user not found!')
+
+        //change PIN
+        user.PIN = PIN;
+        await user.save()
 
         res.json("PIN changed successfully")
     } catch (err) {
