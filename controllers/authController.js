@@ -1,4 +1,4 @@
-const { Customer, OTP, User } = require('../models');
+const { Customer, OTP, User, Activity } = require('../models');
 const otpGenerator = require('otp-generator');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/otp.email')
@@ -199,7 +199,13 @@ const resetPIN = async (req, res) => {
 
         //change PIN
         user.PIN = PIN;
-        await user.save()
+        await user.save();
+
+        //add to activity table
+        const newActivity = await Activity.create({
+            customerId: id,
+            activity: 'pin_reset'
+        })
 
         res.json("PIN changed successfully")
     } catch (err) {
