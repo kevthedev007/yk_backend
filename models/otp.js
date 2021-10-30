@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    otp: DataTypes.INTEGER,
+    otp: DataTypes.STRING,
     status: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
