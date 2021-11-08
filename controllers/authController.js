@@ -134,6 +134,7 @@ const createPIN = async (req, res) => {
             code: "400",
             message: "Customer does not Exist"
         })
+      
         //save to user model
         const user = await User.create({
             id: id,
@@ -236,7 +237,10 @@ const forgetPIN = async (req, res) => {
         return res.status(200).json({
             success: true,
             code: "200",
-            message: 'Password reset pin has been sent to your mail'
+            message: 'Password reset pin has been sent to your mail',
+            data: {
+                id: user.id
+            }
         })
     } catch (err) {
         return res.status(400).json({
@@ -310,7 +314,10 @@ const resetPIN = async (req, res) => {
         return res.json({
             success: true,
             code: "200",
-            message: 'PIN changed successfully'
+            message: 'PIN changed successfully',
+            data: {
+                id: user.id
+            }
         })
     } catch (error) {
         return res.status(500).json({
