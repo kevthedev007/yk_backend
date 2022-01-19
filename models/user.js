@@ -9,15 +9,32 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({ Role, Customer, OTP, Activity }) {
       // define association here
-      User.belongsTo(models.Roles, { foreignKey: 'roleId' })
+      User.belongsTo(Role, {
+        foreignKey: { name: "roleId", allowNull: false },
+        as: "role", onDelete: 'CASCADE'
+      });
+      User.hasOne(Customer, {
+        foreignKey: { name: "userId", allowNull: false },
+        as: "customer",
+      });
+      User.hasMany(OTP, {
+        foreignKey: { name: "userId", allowNull: false },
+        as: "otp",
+      });
+      User.hasMany(Activity, {
+        foreignKey: { name: "userId", allowNull: false },
+        as: "activity",
+      });
     }
   };
   User.init({
     id: {
-      type:DataTypes.STRING,
-      primaryKey: true
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
     roleId: {
       type: DataTypes.INTEGER,
@@ -26,7 +43,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    },
     PIN: DataTypes.INTEGER,
     status: {
       type: DataTypes.BOOLEAN,

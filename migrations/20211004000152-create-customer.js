@@ -8,11 +8,15 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      full_name: {
-        type: Sequelize.STRING,
-        allowNull: false
+      userId: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
-      email: {
+      full_name: {
         type: Sequelize.STRING,
         allowNull: false
       },

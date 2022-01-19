@@ -12,16 +12,12 @@ module.exports = {
      * }], {});
     */
 
-     await queryInterface.bulkInsert('Roles', [{
-         role_name: 'admin',
-         createdAt: new Date(),
-         updatedAt: new Date(),
-       },
-      {
-        role_name: 'customer',
-         createdAt: new Date(),
-         updatedAt: new Date(),
-      }], {});
+    await queryInterface.bulkInsert('Roles', [{
+      role_name: 'customer',
+    },
+    {
+      role_name: 'admin',
+    }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -31,6 +27,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-     await queryInterface.bulkDelete('Roles', null, {});
+    await queryInterface.bulkDelete('Roles', null, {});
   }
 };

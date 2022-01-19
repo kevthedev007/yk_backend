@@ -9,9 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({ User }) {
       // define association here
-      Activity.belongsTo(models.Customer, { foreignKey: 'customerId', onDelete: 'CASCADE' })
+      Activity.belongsTo(User, {
+        foreignKey: { name: "userId", allowNull: false },
+        as: "user", onDelete: 'CASCADE'
+      });
     }
   };
   Activity.init({
@@ -20,10 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    customerId: {
+    userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Customers',
+        model: 'Users',
         key: 'id'
       }
     },

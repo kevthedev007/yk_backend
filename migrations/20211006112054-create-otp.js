@@ -8,11 +8,11 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      customerId: {
+      userId: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
-          model: 'Customers',
+          model: 'Users',
           key: 'id'
         }
       },

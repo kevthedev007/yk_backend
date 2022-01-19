@@ -11,14 +11,6 @@ module.exports = {
       role_name: {
         type: Sequelize.ENUM("admin", "customer")
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   down: async (queryInterface, Sequelize) => {

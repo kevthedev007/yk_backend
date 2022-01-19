@@ -10,9 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of DataTypes lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({ User }) {
       // define association here
-      Customer.hasMany(models.OTP, { foreignKey: 'customerId', as: 'otps'})
+      Customer.belongsTo(User, {
+        foreignKey: { name: "userId", allowNull: false },
+        as: "user", onDelete: 'CASCADE'
+      });
     }
   };
   Customer.init({
@@ -21,17 +24,17 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
+    userId: {
+      type: Sequelize.UUID,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
+    },
     full_name: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true
-      }
     },
     dob: {
       type: DataTypes.DATE,
