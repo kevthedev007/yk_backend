@@ -78,7 +78,8 @@ const register = async (req, res) => {
 
 
 const verifyOTP = async (req, res) => {
-  const { otp, id } = req.body
+  const otp = req.body.otp;
+  const id = req.params.id;
 
   try {
     const checkUser = await OTP.findOne({
@@ -129,7 +130,8 @@ const verifyOTP = async (req, res) => {
 }
 
 const createPIN = async (req, res) => {
-  const { id, PIN } = req.body;
+  const PIN = req.body.PIN;
+  const id = req.params.id;
 
   try {
     //to get customer email
@@ -254,8 +256,8 @@ const forgetPIN = async (req, res) => {
 }
 
 const resetCode = async (req, res) => {
-  const { id, otp } = req.body;
-
+  const otp = req.body.otp;
+  const id = req.params.id;
   //check user
   const user = await User.findOne({ where: { id } })
   if (!user) return res.status(400).json({
@@ -292,8 +294,8 @@ const resetCode = async (req, res) => {
 }
 
 const resetPIN = async (req, res) => {
-  const { id, PIN } = req.body;
-
+  const PIN = req.body.PIN;
+  const id = req.params.id;
   try {
     //check user
     const user = await User.findOne({ where: { id } })
